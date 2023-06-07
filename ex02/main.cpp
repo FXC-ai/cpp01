@@ -4,7 +4,6 @@
 int main ()
 {	
 	std::string	chain("HI THIS IS BRAIN");
-
 	std::string	*stringPTR = &chain;
 	std::string	&stringREF = chain;
 
