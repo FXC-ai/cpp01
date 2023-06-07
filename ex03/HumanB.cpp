@@ -3,21 +3,16 @@
 #include "Weapon.hpp"
 #include "HumanB.hpp"
 
-HumanB::HumanB (std::string const name) : _name(name)
-{
-}
+HumanB::HumanB (std::string const name) : _name(name) {}
 
-HumanB::~HumanB()
-{
-}
+HumanB::~HumanB(){}
 
-void	HumanB::setWeapon(Weapon type)
+void	HumanB::setWeapon(Weapon &weapon)
 {
-	this->_type = &type;
+	this->_weapon = &weapon; // Dereferencement necessaire CAR une reference est un pointeur déréférencé par defaut !!!
 }
-
 
 void	HumanB::attack()
 {
-	std::cout << this->_name + " attacks with their " + this->_type->getType() << std::endl;
+	std::cout << this->_name + " attacks with their " + this->_weapon->getType() << std::endl;
 }
