@@ -13,10 +13,18 @@ class Harl
         void    info(void);
         void    warning(void);
         void    error(void);
+        //std::map<std::string, void(Harl::*)(void)> map_fct;
 
 };
 
 Harl::Harl (){}
+// {
+//     this->map_fct["debug"] = 
+
+
+
+// }
+
 Harl::~Harl (){}
 
 void    Harl::debug(void)
@@ -41,7 +49,7 @@ void    Harl::error(void)
 
 void    Harl::complain(std::string level)
 {
-    (void) level;
+
     std::map<std::string, void(Harl::*)(void)> map_fct;
 
     map_fct["debug"] = &Harl::debug;
@@ -49,14 +57,9 @@ void    Harl::complain(std::string level)
     map_fct["warning"] = &Harl::warning;
     map_fct["error"] = &Harl::error;
 
+    (this->*map_fct[level])();
 
-    // void(Harl::*ptr)(void);
-    // ptr = &Harl::error;
-
-    // this->((*ptr)());
-
-    //this->debug();
-    //(this->(*(map_fct[level])))();
+    // (this->(*(map_fct[level])))();
     //std::cout << test[level] << std::endl;
 
 }
@@ -67,6 +70,9 @@ int main()
     Harl obj_harl;
 
     obj_harl.complain("debug");
+    obj_harl.complain("info");
+    obj_harl.complain("error");
+    obj_harl.complain("warning");
 
     return (0);
 }
