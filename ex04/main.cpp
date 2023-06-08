@@ -2,29 +2,30 @@
 #include <fstream>
 #include <sstream>
 
-std::string readFileIntoString(const std::string& path) 
+int readFileIntoString(const std::string& filename, std::string& file_contents) 
 {
-    std::ifstream in_file(path);
+    std::ifstream in_file(filename);
     if (!in_file.is_open()) 
 	{
-        std::cerr << "Could not open the file - '" << path << "'" << std::endl;
-        exit(EXIT_FAILURE);
+        std::cerr << "Could not open the file - '" << filename << "'" << std::endl;
+        return 1;
     }
-    return std::string((std::istreambuf_iterator<char>(in_file)), std::istreambuf_iterator<char>());
+    file_contents = std::string((std::istreambuf_iterator<char>(in_file)), std::istreambuf_iterator<char>());
+    in_file.close();
+    return 0;
 }
 
-void        readStringIntoFile(const std::string& path, std::string text)
+int readStringIntoFile(const std::string& filename_r, std::string& file_contents)
 {
-    std::string filename_r(path);
-
     std::ofstream out_file(filename_r);
     if (!out_file.is_open()) 
 	{
-        std::cerr << "Could not open the file - '" << path << "'" << std::endl;
-        exit(EXIT_FAILURE);
+        std::cerr << "Could not open the file - '" << filename_r << "'" << std::endl;
+        return 1;
     }
-    out_file << text;
+    out_file << file_contents;
     out_file.close();
+    return 0;
 }
 
 int main(int argc, char *argv[])
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
     if (argc != 4)
     {
         std::cerr << "Invalid number of arguments." << std::endl;
-        return 0;
+        return (0);
     }
 
     const std::string   filename(argv[1]);
@@ -45,7 +46,8 @@ int main(int argc, char *argv[])
 	std::size_t         i(0);
     const std::string   filename_r(filename + ".replace");
 
-    file_contents = readFileIntoString(filename);
+    if (readFileIntoString(filename, file_contents) == 1)
+        return (0);
 
 	while (found != std::string::npos)
 	{
@@ -58,7 +60,8 @@ int main(int argc, char *argv[])
         }
 	}
 
-    readStringIntoFile(filename_r, file_contents);
- 
-    exit(EXIT_SUCCESS);
+    if (readStringIntoFile(filename_r, file_contents) == 1)
+        return (0);
+
+    return (0);
 }
