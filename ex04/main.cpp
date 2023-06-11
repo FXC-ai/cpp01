@@ -1,6 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
+#include "main.hpp"
 
 int readFileIntoString(const std::string& filename, std::string& file_contents) 
 {
@@ -28,6 +26,24 @@ int readStringIntoFile(const std::string& filename_r, std::string& file_contents
     return 0;
 }
 
+void ft_replace(std::string& file_contents, const std::string& s1, const std::string& s2)
+{
+    std::size_t         found(0);
+	std::size_t         i(0);
+    int                 size_s1(s1.length());
+
+	while (found != std::string::npos)
+	{
+		found = file_contents.find(s1, i);
+        if (found != std::string::npos)
+        {
+		    file_contents.erase(found, size_s1);
+            file_contents.insert(found, s2);
+		    i = found + 1;
+        }
+	}
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -40,25 +56,15 @@ int main(int argc, char *argv[])
     const std::string   filename(argv[1]);
     const std::string   s1(argv[2]);
     const std::string   s2(argv[3]);
-    int                 size_s1(s1.length());
+    
     std::string         file_contents;
-	std::size_t         found(0);
-	std::size_t         i(0);
+
     const std::string   filename_r(filename + ".replace");
 
     if (readFileIntoString(filename, file_contents) == 1)
         return (0);
 
-	while (found != std::string::npos)
-	{
-		found = file_contents.find(s1, i);
-        if (found != std::string::npos)
-        {
-		    file_contents.erase(found, size_s1);
-            file_contents.insert(found, s2);
-		    i = found + 1;
-        }
-	}
+    ft_replace(file_contents, s1, s2);
 
     if (readStringIntoFile(filename_r, file_contents) == 1)
         return (0);

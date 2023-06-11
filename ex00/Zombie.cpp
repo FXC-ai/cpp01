@@ -1,16 +1,14 @@
 #include "Zombie.hpp"
-#include <string>
-#include <iostream>
 
-
-Zombie::Zombie(std::string name) : _name(name)
+Zombie::Zombie()
 {
+	std::cout << "Unamed zombie created." << std::endl;
 	return ;
 }
 
-
-Zombie::Zombie(void)
+Zombie::Zombie(std::string name) : _name(name)
 {
+	std::cout << this->_name << " created." << std::endl;
 	return ;
 }
 
